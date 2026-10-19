@@ -3,8 +3,8 @@ import { useAuth } from '../context/useAuth.js'
 
 // Create a protected route that makes sure the job screen is only accessible to the correct signed in user
 function ProtectedRoute() {
-    // Grabs the session and the loading state from auth context
-    const { session, authIsLoading } = useAuth()
+    // Grabs the signed in user and the loading state from auth context
+    const { user, authIsLoading } = useAuth()
 
     // Checks if the app is waiting for supabase to respond
     if (authIsLoading) {
