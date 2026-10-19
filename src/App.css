@@ -1,184 +1,290 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/*
+  App.css holds the shared layout, form, and menu styles for our auth screens.
+  Colour values live our index.css file, app.css file applies them.
+*/
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
+/*
+  We needed a shell to fill the screen and to stack the header above the page.
+*/
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
+.app-shell {
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  background: var(--bg);
 }
 
-#next-steps {
+/*
+  The header bar uses our navy colour for my Hi-Fi design, 0B2749.
+  The logo stays centred while Back and Menu sit on the sides.
+  The top padding includes the phone safe area so the logo clears the iPhone camera notch we mentioned in our design document.
+*/
+
+.app-header {
   display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
+  align-items: center;
+  justify-content: center;
   position: relative;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1.35rem);
+  padding-right: var(--page-padding);
+  padding-bottom: 1.35rem;
+  padding-left: var(--page-padding);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--colour-deep-navy);
+}
+
+.app-header__side {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-height: 2.5rem;
+}
+
+.app-header__side--left {
+  left: var(--page-padding);
+  justify-content: flex-start;
+}
+
+.app-header__side--right {
+  right: var(--page-padding);
+  justify-content: flex-end;
+}
+
+/*
+  The logo is Tahoma with wide letter spacing to match our Hi-Fi design/typeface and font.
+  The negative right margin cancels the extra space after the last letter so the word stays centred.
+*/
+
+.app-header__logo {
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.34em;
+  margin-right: -0.34em;
+  text-decoration: none;
+  color: var(--colour-white);
+}
+
+.app-header__back,
+.app-header__menu-button {
+  border: 0;
+  background: transparent;
+  color: var(--colour-white);
+  cursor: pointer;
+  padding: 0.35rem 0.25rem;
+  text-decoration: none;
+}
+
+/*
+  The menu covers the screen when it is open.
+  The backdrop dims the page, and the panel holds Sign out.
+*/
+
+.app-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+}
+
+.app-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(7, 28, 56, 0.72);
+  cursor: pointer;
+}
+
+.app-menu__panel {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 3.5rem);
+  right: var(--page-padding);
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.app-menu__link,
+.app-menu__link--button {
+  display: block;
   width: 100%;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  text-decoration: none;
+  color: var(--colour-white);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+.app-menu__link:hover,
+.app-menu__link--button:hover {
+  background: var(--colour-blue);
+}
+
+/*
+  Page content stays in a narrow column so the phone layout matches our Hi-Fi.
+*/
+
+.page {
+  flex: 1;
+  width: min(28rem, 100%);
+  margin: 0 auto;
+  padding: 1.5rem var(--page-padding) 2.5rem;
+}
+
+.page--centred {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--colour-white);
+}
+
+.page-subtitle {
+  margin: 0 0 1.35rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.page-back {
+  display: inline-block;
+  margin-bottom: 1.1rem;
+  color: var(--colour-white);
+  text-decoration: none;
+}
+
+.page-copy,
+.status-message,
+.auth-switch,
+.field__hint {
+  color: var(--text-muted);
+}
+
+/*
+  Authentication forms stack each label above its rounded navy field.
+*/
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--colour-white);
+}
+
+.field__required {
+  color: var(--colour-white);
+}
+
+.field__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--field-border);
+  border-radius: 0.7rem;
+  background: var(--field-background);
+  color: var(--colour-white);
+}
+
+.field__input::placeholder {
+  color: var(--colour-light-blue);
+}
+
+/*
+  Browsers can paint saved emails with a white box, we force that fill back to our field colour.
+*/
+
+.field__input:-webkit-autofill {
+  -webkit-text-fill-color: var(--colour-white);
+  caret-color: var(--colour-white);
+  box-shadow: 0 0 0 1000px var(--field-background) inset;
+}
+
+.field__hint {
+  font-size: 0.85rem;
+}
+
+/*
+  CTA's are our blue Hi-Fi designed buttons with white text for high contrast.
+*/
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.85rem 1.1rem;
+  border: 0;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  appearance: none;
+}
+
+.button--primary {
+  margin-top: 0.5rem;
+  background: var(--cta-background);
+  color: var(--cta-text);
+  font-weight: 700;
+}
+
+.button--primary:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.form-error {
+  margin: 0;
+  color: var(--error);
+}
+
+.form-error--banner {
+  margin: 0;
+  padding: 0.75rem var(--page-padding);
+  background: rgba(255, 34, 34, 0.12);
+}
+
+.auth-switch {
+  margin: 1.35rem 0 0;
+  text-align: left;
+  color: var(--colour-white);
+}
+
+.auth-switch a {
+  color: var(--colour-white);
+}
+
+/*
+  On a wider screen we only add a little more space above the title.
+  The column stays narrow so the phone layout does not stretch out.
+*/
+
+@media (min-width: 768px) {
+  .page {
+    padding-top: 2rem;
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+  .page-title {
+    font-size: 2rem;
   }
 }
