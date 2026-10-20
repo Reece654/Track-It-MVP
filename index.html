@@ -1,13 +1,41 @@
+<!--
+  index.html is our page that the browser loads for Track It.
+  React then draws every screen inside the root element below.
+  We keep this file small so routing and screens stay in our JavaScript.
+-->
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      The viewport tag makes the layout scale correctly on phones.
+      Width matches the device, and the initial zoom stays at one.
+    -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>track-it-mvp</title>
+
+    <!--
+      Text/title in browser tab and in bookmarks.
+    -->
+
+    <title>Track It</title>
   </head>
   <body>
+
+    <!--
+      React mounts/loads the app into this empty div.
+      main.jsx looks up the id root and renders our screens there.
+    -->
+
     <div id="root"></div>
+
+    <!--
+      This script starts the React app as a module.
+      Vite serves main.jsx during local work and in the production build.
+    -->
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
