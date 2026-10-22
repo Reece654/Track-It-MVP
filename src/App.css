@@ -80,7 +80,7 @@
 
 /*
   The menu covers the screen when it is open.
-  The backdrop dims the page, and the panel holds Sign out.
+  The backdrop dims the page, and the panel holds the job links and Sign out.
 */
 
 .app-menu {
@@ -204,6 +204,7 @@
   border-radius: 0.7rem;
   background: var(--field-background);
   color: var(--colour-white);
+  color-scheme: dark;
 }
 
 .field__input::placeholder {
@@ -239,6 +240,76 @@
   border-radius: 0.7rem;
   cursor: pointer;
   appearance: none;
+  text-decoration: none;
+}
+
+.field__input--area {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
+select.field__input {
+  color: var(--colour-white);
+}
+
+.job-create {
+  margin-bottom: 1.25rem;
+}
+
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.job-card {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+}
+
+.job-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.job-card__title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.job-card__meta {
+  margin: 0.35rem 0 0;
+  color: var(--text-muted);
+}
+
+.job-status {
+  flex-shrink: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.job-status--pending {
+  background: var(--colour-amber);
+  color: var(--colour-ink);
+}
+
+.job-status--active {
+  background: var(--colour-green);
+  color: var(--colour-white);
+}
+
+.job-status--completed {
+  background: var(--colour-blue);
+  color: var(--colour-white);
 }
 
 .button--primary {
