@@ -1,12 +1,13 @@
 /*
   App.jsx sets up Track It routes.
-  We include sign in, sign up, and /jobs as the signed in landing route with sign out (Other screens will be added in our future milestones as per our plan/proposal).
+  We include sign in, sign up, the jobs list, and create job.
 */
 
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AppShell from './components/AppShell'
 import ProtectedRoute from './components/ProtectedRoute'
 import HomeRedirect from './pages/HomeRedirect'
+import CreateJobPage from './pages/CreateJobPage'
 import JobsPage from './pages/JobsPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
@@ -37,12 +38,13 @@ function App() {
         ProtectedRoute checks the session before these screens are drawn.
         This is so only a signed in user reaches AppShell so they can see the header and menu.
         AppShell in the components folder keeps our header and menu around the signed in page.
-        React Router then draws JobsPage from the pages folder in the space under that header when the URL is /jobs.
+        JobsPage is drawn at /jobs, and CreateJobPage is drawn at /jobs/new.
       */}
 
       <Route element={<ProtectedRoute />}>
         <Route element={<AppShell />}>
           <Route path="/jobs" element={<JobsPage />} />
+          <Route path="/jobs/new" element={<CreateJobPage />} />
         </Route>
       </Route>
 

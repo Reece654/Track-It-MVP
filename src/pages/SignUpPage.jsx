@@ -9,7 +9,7 @@ import { supabase } from '../services/supabase'
 function SignUpPage() {
     // Gets navigate function to redirect the user after signing up
     const navigate = useNavigate()
-    // Gets the signed in users data and loading state from auth context
+    // Reads the current user and loading state from the shared auth context
     const { user, authIsLoading } = useAuth()
     // Holds what the user enters for the first name field
     const [firstName, setFirstName] = useState('')
@@ -17,16 +17,16 @@ function SignUpPage() {
     const [lastName, setLastName] = useState('')
     // Holds what the user enters for the optional phone number field
     const [phoneNumber, setPhoneNumber] = useState('')
-    // Holds what the user enters for the email field
+    // Stores the email typed into the sign up form
     const [email, setEmail] = useState('')
-    // Holds what the user enters for the password field
+    // Stores the password typed into the sign up form
     const [password, setPassword] = useState('')
     // Holds the error message for signing up if required
     const [formErrorMessage, setFormErrorMessage] = useState('')
-    // Checks if the form is being sent, which then stops the button being pressed again
+    // Tracks whether sign up is already being sent, so the button cannot be pressed again
     const [formIsSubmitting, setFormIsSubmitting] = useState(false)
 
-    // Checks if the app is waiting for supabase to respond
+    // Checks if supabase is still loading before the sign up form is shown
     if (authIsLoading) {
         return (
             <main className="page page--centred">
@@ -42,10 +42,10 @@ function SignUpPage() {
 
     // Handles the form submission for signing up
     async function handleSubmit(event) {
-        // Prevents the default form submission
+        // Stops the browser submitting the form so sign up is handled here
         // Also stops the browser reloading the page so the app can handle the signup instead
         event.preventDefault()
-        // Resets the error message
+        // Clears any previous sign up error before trying again
         setFormErrorMessage('')
 
         // Trims extra spaces from the start and end of each field
@@ -94,7 +94,7 @@ function SignUpPage() {
             },
         })
 
-        // Resets the form submitting state
+        // Turns the submitting state off once supabase has replied
         setFormIsSubmitting(false)
 
         // Checks if supabase sent back an error
@@ -118,10 +118,10 @@ function SignUpPage() {
     // UI for the sign up page
     return (
         <div className="app-shell">
-            {/* Displays the app header */}
+            {/* Shows the Track It header above the sign up form */}
             <AppHeader />
             <main className="page">
-                {/* Displays the page heading */}
+                {/* Shows the Sign Up heading */}
                 <h1 className="page-title">Sign Up</h1>
                 {/* Displays the sign up form with name, phone, email and password fields, error messages, and thr submit button */}
                 <form className="auth-form" onSubmit={handleSubmit}>
@@ -209,7 +209,7 @@ function SignUpPage() {
                         </span>
                     </label>
 
-                    {/* Display an error message if needed */}
+                    {/* Shows the sign up error when there is one */}
                     {formErrorMessage ? (
                         <p className="form-error" role="alert">
                             {formErrorMessage}

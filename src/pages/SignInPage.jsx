@@ -19,7 +19,7 @@ function SignInPage() {
     // Checks if the form is being sent, which then stops the button being pressed again
     const [formIsSubmitting, setFormIsSubmitting] = useState(false)
 
-    // Checks if the app is waiting for supabase to respond
+    // Shows a loading message while supabase is still checking the session
     if (authIsLoading) {
         return (
             <main className="page page--centred">

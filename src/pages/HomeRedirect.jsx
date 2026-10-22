@@ -6,7 +6,7 @@ function HomeRedirect() {
     // Gets the signed in user and loading state thats shared from the auth context
     const { user, authIsLoading } = useAuth()
 
-    // Checks if the app is waiting for supabase to respond
+    // Checks if supabase is still loading before the home address is sent on
     if (authIsLoading) {
         return (
             <main className="page page--centred">
