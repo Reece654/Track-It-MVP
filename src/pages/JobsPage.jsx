@@ -3,6 +3,7 @@
   App.jsx draws it inside AppShell, and ProtectedRoute keeps it for a signed in user.
   The rows come from the jobs table through the shared Supabase client.
   Create job on this page opens CreateJobPage at /jobs/new.
+  View job on each card opens the job details page at /jobs/:jobId
 */
 
 /*
@@ -129,7 +130,8 @@ function JobsPage() {
 
       {/*
         Each card shows the title, status, and location.
-        The due date and assigned person only appear when those were filled in on create.
+        The due date and assigned person only appear when those were filled in on create or edit.
+        Shows view job button on each card that opens the details page for that job
       */}
 
       {!jobsAreLoading && jobs.length > 0 ? (
@@ -149,6 +151,9 @@ function JobsPage() {
               {job.assigned_to ? (
                 <p className="job-card__meta">Assigned to {job.assigned_to}</p>
               ) : null}
+              <Link className="button button--secondary job-card__view" to={`/jobs/${job.id}`}>
+                View job
+              </Link>
             </li>
           ))}
         </ul>
