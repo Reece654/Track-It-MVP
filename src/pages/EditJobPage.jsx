@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { maxTextLength } from '../constants'
+import { jobSavedSuccessMessage, maxTextLength } from '../constants'
 import { supabase } from '../services/supabase'
 
 // This stores the statuses of the jobs from the dropdown
@@ -187,8 +187,11 @@ function EditJobPage() {
             return
         }
 
-        // Sends the user back to the job details page after the save works
-        navigate(`/jobs/${jobId}`, { replace: true })
+        // After a save that works we open job details with the saved success message
+        navigate(`/jobs/${jobId}`, {
+            replace: true,
+            state: { successMessage: jobSavedSuccessMessage },
+        })
     }
 
     // Create the edit page with a cancel link woth loading and error messages, and the edit form

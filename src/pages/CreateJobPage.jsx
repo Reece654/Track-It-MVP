@@ -14,7 +14,7 @@
 
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { maxTextLength } from '../constants'
+import { jobSavedSuccessMessage, maxTextLength } from '../constants'
 import { supabase } from '../services/supabase'
 
 /*
@@ -136,7 +136,11 @@ function CreateJobPage() {
       return
     }
 
-    navigate('/jobs', { replace: true })
+    // After a save that works we open JobsPage with the saved success message
+    navigate('/jobs', {
+      replace: true,
+      state: { successMessage: jobSavedSuccessMessage },
+    })
   }
 
   return (

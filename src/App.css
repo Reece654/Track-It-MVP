@@ -381,6 +381,82 @@ select.field__input {
   margin-top: 1.35rem;
 }
 
+/* Danger buttons use our Hi-Fi red for delete actions */
+
+.button--danger {
+  margin-top: 0.5rem;
+  background: var(--colour-red);
+  color: var(--colour-white);
+  font-weight: 700;
+}
+
+.button--danger:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.job-detail__delete {
+  margin-top: 1.5rem;
+}
+
+.success-toast {
+  margin: 0;
+  padding: 0.85rem var(--page-padding);
+  background: rgba(46, 111, 64, 0.2);
+  border-bottom: 1px solid var(--colour-green);
+  color: var(--colour-white);
+  font-weight: 700;
+}
+
+/* Native delete dialog panel and the dim layer behind it */
+
+.confirm-modal {
+  width: min(22rem, calc(100% - 2 * var(--page-padding)));
+  max-height: calc(100svh - 2 * var(--page-padding));
+  margin: auto;
+  padding: 1.35rem 1.15rem 1.25rem;
+  overflow-y: auto;
+  border: 1px solid var(--colour-light-blue);
+  border-radius: 0.7rem;
+  background: var(--surface);
+  color: var(--colour-white);
+}
+
+.confirm-modal::backdrop {
+  background: rgba(7, 28, 56, 0.72);
+}
+
+.confirm-modal__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  color: var(--colour-white);
+}
+
+.confirm-modal__job-title {
+  margin: 0 0 0.85rem;
+  font-weight: 700;
+  color: var(--colour-white);
+}
+
+.confirm-modal__copy {
+  margin: 0 0 0.85rem;
+  color: var(--text-muted);
+}
+
+.confirm-modal__prompt {
+  margin: 0 0 1.35rem;
+  font-weight: 700;
+  color: var(--colour-white);
+}
+
+.confirm-modal__yes {
+  margin-top: 0.25rem;
+}
+
+.confirm-modal__cancel {
+  margin-top: 1.1rem;
+}
+
 .form-error {
   margin: 0;
   color: var(--error);
