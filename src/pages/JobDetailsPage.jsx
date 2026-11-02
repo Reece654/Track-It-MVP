@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { jobDeletedSuccessMessage } from '../constants'
 import { supabase } from '../services/supabase'
 
 // Holds the readable label for each stored job status
@@ -19,12 +20,27 @@ function formatDueDate(dueDate) {
 function JobDetailsPage() {
     // Gets the job id from the address
     const { jobId } = useParams()
+
+    // Sends our user to JobsPage after a delete that works
+    const navigate = useNavigate()
     // Stores the job once it loads
     const [job, setJob] = useState(null)
     // Stores if the job is still loading
     const [jobIsLoading, setJobIsLoading] = useState(true)
     // Stores the error message if load fails
     const [jobErrorMessage, setJobErrorMessage] = useState('')
+
+    /*
+      deleteConfirmIsOpen is true while the confirm dialog should be open.
+      deleteIsSubmitting stops YES being pressed twice while Supabase is deleting.
+      deleteErrorMessage holds a delete failure message when one comes back.
+      deleteDialogRef points at the native dialog element.
+    */
+
+    const [deleteConfirmIsOpen, setDeleteConfirmIsOpen] = useState(false)
+    const [deleteIsSubmitting, setDeleteIsSubmitting] = useState(false)
+    const [deleteErrorMessage, setDeleteErrorMessage] = useState('')
+    const deleteDialogRef = useRef(null)
 
     // Loads the job when the page opens or the job id changes
     useEffect(() => {
@@ -71,8 +87,89 @@ function JobDetailsPage() {
       }
   }, [jobId])
 
+  /*
+    handleOpenDeleteConfirm opens the confirm dialog and clears any earlier delete error.
+    We do this so a previous failure does not stay on screen when our user tries again.
+  */
+
+  function handleOpenDeleteConfirm() {
+    setDeleteErrorMessage('')
+    setDeleteConfirmIsOpen(true)
+  }
+
+  /*
+    Opens or closes the native dialog when deleteConfirmIsOpen changes.
+    showModal keeps the confirm UI on top of the page for phone and desktop.
+  */
+
+  useEffect(() => {
+    const deleteDialog = deleteDialogRef.current
+
+    if (!deleteDialog) {
+      return
+    }
+
+    if (deleteConfirmIsOpen) {
+      if (!deleteDialog.open) {
+        deleteDialog.showModal()
+      }
+
+      return
+    }
+
+    if (deleteDialog.open) {
+      deleteDialog.close()
+    }
+  }, [deleteConfirmIsOpen])
+
+  // Closes the dialog without deleting the job
+  function handleCancelDelete() {
+    if (deleteIsSubmitting) {
+      return
+    }
+
+    setDeleteConfirmIsOpen(false)
+    setDeleteErrorMessage('')
+  }
+
+  /*
+    Escape should close the confirm dialog the same way Cancel does.
+    We stop the browser closing it on its own so deleteConfirmIsOpen stays in control.
+  */
+
+  function handleDeleteDialogCancel(event) {
+    event.preventDefault()
+    handleCancelDelete()
+  }
+
+  /*
+    Runs only after YES, DELETE JOB is pressed.
+    Deletes this job through Supabase, then opens JobsPage with the deleted success message.
+    A failed delete keeps the dialog open and shows the error.
+  */
+
+  async function handleConfirmDelete() {
+    setDeleteErrorMessage('')
+    setDeleteIsSubmitting(true)
+
+    const { error } = await supabase.from('jobs').delete().eq('id', jobId)
+
+    setDeleteIsSubmitting(false)
+
+    if (error) {
+      setDeleteErrorMessage(error.message || 'Could not delete this job.')
+      return
+    }
+
+    navigate('/jobs', {
+      replace: true,
+      state: { successMessage: jobDeletedSuccessMessage },
+    })
+  }
+
 // Creates the job details page
  return (
+  <>
     <main className="page">
 
       {/* Back takes the user to JobsPage at without changing anything */}
@@ -151,9 +248,66 @@ function JobDetailsPage() {
           <Link className="button button--primary job-detail__edit" to={`/jobs/${job.id}/edit`}>
             Edit job
           </Link>
+
+          {/* Delete job opens the confirm dialog under Edit */}
+          <button
+            type="button"
+            className="button button--danger job-detail__delete"
+            onClick={handleOpenDeleteConfirm}
+          >
+            Delete job
+          </button>
         </>
       ) : null}
+
     </main>
+
+      {/*
+        The confirm dialog follows our Hi-Fi delete copy and uses the real job title.
+        showModal keeps it in the browser top layer for phone and desktop viewports.
+        Cancel calls handleCancelDelete and keeps the job.
+        YES, DELETE JOB calls handleConfirmDelete, which only leaves after Supabase confirms.
+      */}
+
+      {job ? (
+        <dialog
+          ref={deleteDialogRef}
+          className="confirm-modal"
+          aria-label="Delete job confirmation"
+          onCancel={handleDeleteDialogCancel}
+        >
+          <h2 className="confirm-modal__title">Delete this job?</h2>
+          <p className="confirm-modal__job-title">{job.title}</p>
+          <p className="confirm-modal__copy">
+            This will permanently remove the job.
+          </p>
+          <p className="confirm-modal__prompt">Are you sure you want to proceed?</p>
+
+          {deleteErrorMessage ? (
+            <p className="form-error" role="alert">
+              {deleteErrorMessage}
+            </p>
+          ) : null}
+
+          <button
+            type="button"
+            className="button button--danger confirm-modal__yes"
+            onClick={handleConfirmDelete}
+            disabled={deleteIsSubmitting}
+          >
+            {deleteIsSubmitting ? 'Deleting...' : 'YES, DELETE JOB'}
+          </button>
+          <button
+            type="button"
+            className="button button--secondary confirm-modal__cancel"
+            onClick={handleCancelDelete}
+            disabled={deleteIsSubmitting}
+          >
+            Cancel
+          </button>
+        </dialog>
+      ) : null}
+  </>
   )
 }
 

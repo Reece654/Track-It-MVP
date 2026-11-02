@@ -5,8 +5,8 @@
   JobsPage is then drawn in React Router's Outlet/space under the header.
 */
 
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import AppHeader from './AppHeader'
 import AppMenu from './AppMenu'
 
@@ -17,8 +17,32 @@ function AppShell() {
     signOutErrorMessage holds any failure text sent back from AppMenu.
   */
 
+  const location = useLocation()
+  const navigate = useNavigate()
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [signOutErrorMessage, setSignOutErrorMessage] = useState('')
+
+  /*
+    successToastMessage is the green banner text passed in from a save or delete that worked.
+    We clear it after a short wait so it does not come back on refresh or Back.
+  */
+
+  const successToastMessage =
+    typeof location.state?.successMessage === 'string' ? location.state.successMessage : ''
+
+  useEffect(() => {
+    if (!successToastMessage) {
+      return undefined
+    }
+
+    const hideToastTimer = window.setTimeout(() => {
+      navigate(`${location.pathname}${location.search}`, { replace: true, state: null })
+    }, 4000)
+
+    return () => {
+      window.clearTimeout(hideToastTimer)
+    }
+  }, [successToastMessage, location.pathname, location.search, navigate])
 
   return (
     <div className="app-shell">
@@ -59,6 +83,13 @@ function AppShell() {
       {signOutErrorMessage ? (
         <p className="form-error form-error--banner" role="alert">
           {signOutErrorMessage}
+        </p>
+      ) : null}
+
+      {/* Green banner after a create, edit, or delete that worked */}
+      {successToastMessage ? (
+        <p className="success-toast" role="status">
+          {successToastMessage}
         </p>
       ) : null}
 
