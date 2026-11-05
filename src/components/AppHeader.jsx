@@ -15,12 +15,23 @@ function AppHeader({
     <header className="app-header">
 
       {/*
-        Back link/CTA stays hidden until a screen asks for it.
-        Sign up uses its own Back link under the header, so this slot stays empty there.
+        Signed in screens show the hamburger here, matching our Hi-Fi.
+        Sign in and sign up leave this side empty.
       */}
 
       <div className="app-header__side app-header__side--left">
-        {showBack ? (
+        {showMenuButton ? (
+          <button
+            type="button"
+            className="app-header__menu-button"
+            onClick={onMenuOpen}
+            aria-label="Open menu"
+          >
+            <span className="app-header__menu-bar" />
+            <span className="app-header__menu-bar" />
+            <span className="app-header__menu-bar" />
+          </button>
+        ) : showBack ? (
           <Link className="app-header__back" to={backTo}>
             Back
           </Link>
@@ -36,23 +47,6 @@ function AppHeader({
         Track It
       </Link>
 
-      {/*
-        Menu is only shown on signed in screens.
-        AppShell passes onMenuOpen so this button can open the sign out menu.
-      */}
-
-      <div className="app-header__side app-header__side--right">
-        {showMenuButton ? (
-          <button
-            type="button"
-            className="app-header__menu-button"
-            onClick={onMenuOpen}
-            aria-label="Open menu"
-          >
-            Menu
-          </button>
-        ) : null}
-      </div>
     </header>
   )
 }

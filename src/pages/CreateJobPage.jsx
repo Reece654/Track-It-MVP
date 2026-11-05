@@ -240,7 +240,6 @@ function CreateJobPage() {
             value={dueDate}
             onChange={(event) => setDueDate(event.target.value)}
           />
-          <span className="field__hint">Shown as day/month/year on your jobs list.</span>
         </label>
 
         <label className="field">
@@ -253,9 +252,6 @@ function CreateJobPage() {
             value={estimatedHours}
             onChange={(event) => setEstimatedHours(event.target.value)}
           />
-          <span className="field__hint">
-            Leave blank, or enter hours greater than zero with up to two decimal places.
-          </span>
         </label>
 
         <label className="field">

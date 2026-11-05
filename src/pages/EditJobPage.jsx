@@ -202,7 +202,7 @@ function EditJobPage() {
                 ‹ Cancel
             </Link>
             <h1 className="page-title">Edit job</h1>
-            <p className="page-subtitle">Required fields are marked. Status can be changed here.</p>
+            <p className="page-subtitle">Required fields are marked.</p>
 
             {/* Shows loading while the job is grabbed or the error on its own if the job couldnt be loaded or found */}
             {jobIsLoading ? (
@@ -292,7 +292,6 @@ function EditJobPage() {
                             value={dueDate}
                             onChange={(event) => setDueDate(event.target.value)}
                         />
-                        <span className="field__hint">Shown as day/month/year on your jobs list.</span>
                     </label>
 
                     <label className="field">
@@ -305,9 +304,6 @@ function EditJobPage() {
                             value={estimatedHours}
                             onChange={(event) => setEstimatedHours(event.target.value)}
                         />
-                        <span className="field__hint">
-                            Leave blank, or enter hours greater than zero with up to two decimal places.
-                        </span>
                     </label>
 
                     <label className="field">
