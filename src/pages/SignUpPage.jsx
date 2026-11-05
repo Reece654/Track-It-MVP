@@ -123,6 +123,7 @@ function SignUpPage() {
             <main className="page">
                 {/* Shows the Sign Up heading */}
                 <h1 className="page-title">Sign Up</h1>
+                <p className="page-subtitle">Required fields are marked.</p>
                 {/* Displays the sign up form with name, phone, email and password fields, error messages, and thr submit button */}
                 <form className="auth-form" onSubmit={handleSubmit}>
                     {/* Input field for the users first name */}

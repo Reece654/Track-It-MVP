@@ -176,9 +176,6 @@ function JobDetailsPage() {
       <Link className="page-back" to="/jobs">
         ‹ Back
       </Link>
-      <h1 className="page-title">Job details</h1>
-      <p className="page-subtitle">View this job. Status can be changed on Edit.</p>
-
       {/* Loading is shown when the request is still waiting */}
       {jobIsLoading ? (
         <p className="status-message">Loading...</p>
@@ -199,7 +196,7 @@ function JobDetailsPage() {
         <>
           <div className="job-detail">
             <div className="job-detail__top">
-              <h2 className="job-detail__title">{job.title}</h2>
+              <h1 className="job-detail__title">{job.title}</h1>
               <span className={`job-status job-status--${job.status}`}>
                 {statusLabel[job.status] ?? job.status}
               </span>
