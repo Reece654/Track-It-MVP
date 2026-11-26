@@ -4,10 +4,11 @@ Track It is a mobile friendly, cloud based job tracker for solo operators and sm
 
 - **Live app:** https://main.d2891epipyfhho.amplifyapp.com/
 - **Source code:** https://github.com/Reece654/Track-It-MVP
+- **Final build:** the live app above is the final MVP build, deployed on AWS Amplify Hosting
 
 ## Features
 - Sign up, sign in and sign out
-- Create a job with a title, description, location, due date and notes
+- Create a job with a title, description, location, due date, estimated hours, assigned to and notes
 - View all your jobs in a list
 - View the full details of a job
 - Edit a job, including changing its status
@@ -23,7 +24,15 @@ Team accounts, a shared calendar, quoting, invoicing and GPS tracking are planne
 - **Supabase:** user accounts (Auth) and the database for profiles and jobs
 - **AWS Amplify Hosting:** hosts and deploys the live app
 
+## Routes
+- `/sign-in`: Sign in (public)
+- `/sign-up`: Create an account (public)
+- `/jobs`: Job list (signed in users only)
+- `/jobs/new`: Create a job (signed in users only)
+- `/jobs/:jobId`: Job details (signed in users only)
+- `/jobs/:jobId/edit`: Edit a job (signed in users only)
 
+Signed out users who try to open a job page are sent to the sign in page.
 
 
 
@@ -34,7 +43,7 @@ Team accounts, a shared calendar, quoting, invoicing and GPS tracking are planne
 2. Enter "demo@account.co.nz" into the email field.
 3. Enter "demo123" into the password field
 4. Click **Sign In**.
-- Or use your own credential from creating an account.
+Or use your own credential from creating an account.
 
 ### Create an Account
 1. Click **Sign Up**.
@@ -101,7 +110,7 @@ Team accounts, a shared calendar, quoting, invoicing and GPS tracking are planne
 
     Then open http://localhost:5173 in your browser.
 
-The SQL scripts were used to create the database tables, profile trigger and Row Level Security policies are in the `sql` folder for reference.
+The SQL scripts used to create the database tables, profile trigger and Row Level Security policies are in the `sql` folder for reference.
 
 
 
